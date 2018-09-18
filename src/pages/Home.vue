@@ -5,14 +5,14 @@
             <v-content>
                 <v-container fluid grid-list-lg>
                     <v-layout fluid row v-bind="binding">
-                        <v-flex md6>
+                        <v-flex md5>
                             <feeds></feeds>
                         </v-flex>
                         <v-flex md4>
-
+                            <mid-bar></mid-bar>
                         </v-flex>
-                        <v-flex md2>
-                            ddda
+                        <v-flex md3>
+                            <right-bar></right-bar>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -26,11 +26,13 @@
     import Feeds from "../components/Feeds";
     import PostDialog from "../components/PostDialog";
     import {mapGetters, mapActions} from 'vuex';
+    import RightBar from "../components/RightBar";
+    import MidBar from "../components/MidBar";
 
 
     document.title = "Connect";
     export default {
-        components: {PostDialog, Feeds, NavigationDrawer, Navigation},
+        components: {MidBar, RightBar, PostDialog, Feeds, NavigationDrawer, Navigation},
         computed: {
             ...mapGetters('user', [
                 'user'

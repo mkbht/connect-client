@@ -30,6 +30,7 @@ axios.defaults.baseURL = 'http://localhost/connect/public/api';
 
 router.beforeEach((to, from, next) => {
 
+    document.title = to.meta.title;
     if (to.meta.guest === true) {
         if(localStorage.getItem('token')) {
             next('/home');

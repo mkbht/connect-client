@@ -9,23 +9,29 @@
                         </router-link>
                         <v-card class="elevation-6 pa-4">
                             <v-card-text>
-                                <div class="display-1 font-weight-thin text-xs-center">Account Login</div>
+                                <div class="display-1 font-weight-thin text-xs-center">Create new account</div>
                                 <v-alert :value="hasError" type="error" outline>{{ error }}</v-alert>
                                 <v-form>
-                                    <v-text-field prepend-icon="person" name="username" label="Username or Email"
+                                    <v-text-field prepend-icon="name" name="username" label="Name"
+                                                  type="text" v-model="username"></v-text-field>
+                                    <v-text-field prepend-icon="mail" name="username" label="Email"
+                                                  type="text" v-model="username"></v-text-field>
+                                    <v-text-field prepend-icon="person" name="username" label="Username"
                                                   type="text" v-model="username"></v-text-field>
                                     <v-text-field id="password" prepend-icon="lock" name="password" label="Password"
+                                                  type="password" v-model="password"></v-text-field>
+                                    <v-text-field id="cpassword" prepend-icon="lock" name="password" label="Confirm Password"
                                                   type="password" v-model="password"></v-text-field>
                                 </v-form>
                             </v-card-text>
                             <v-card-actions>
-                                <router-link to="/signup">Create new account</router-link>
+                                Already a member? <router-link to="/login">Login</router-link>
                                 <v-spacer></v-spacer>
                                 <v-btn :loading="isLoading"
                                        :disabled="isLoading"
                                        @click="logIn"
                                        color="primary">
-                                    Login
+                                    Signup
                                 </v-btn>
                             </v-card-actions>
                         </v-card>

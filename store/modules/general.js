@@ -4,7 +4,6 @@ const state = {
     items: [
         {icon: 'account_circle', text: 'My Profile', link: '/profile'},
         {icon: 'notifications', text: 'Notifications', link: '/notifications'},
-        {icon: 'content_copy', text: 'Duplicates', link: '/profile'},
         {icon: 'exit_to_app', text: 'Logout', link: '/logout'},
 
     ]

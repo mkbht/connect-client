@@ -14,10 +14,12 @@
                     <v-list-tile-content>
 
                         <v-list-tile-title>
-                            <router-link :to="{name: 'Profile', params: {id: post.user.username}}">{{ post.user.name }}</router-link>
+                            <router-link class="blue--text text--darken-2 font-weight-bold" :to="{name: 'Profile', params: {id: post.user.username}}">{{ post.user.name
+                                }}
+                            </router-link>
                         </v-list-tile-title>
                         <v-list-tile-sub-title>
-                            <timeago :datetime="post.created_at" :auto-update="60"></timeago>
+                            <timeago class="grey--text" :datetime="post.created_at" :auto-update="60"></timeago>
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
@@ -29,8 +31,7 @@
 
                 <v-card-title>
                     <div>
-                        <div>
-                            {{ post.content }}
+                        <div v-html="post.content">
                         </div>
                     </div>
                 </v-card-title>

@@ -3,9 +3,11 @@ import axios from 'axios';
 const state = {
     posts: null,
     newPost: '',
+    newComment: '',
     isLoading: false,
     currentPost: null,
     currentPostSentiment: null,
+    currentPostComments: null,
     busyPostsLoader: false,
     chartColor: 'blue lighten-2',
 
@@ -20,6 +22,10 @@ const getters = {
         return state.newPost;
     },
 
+    newComment: (state) => {
+        return state.newComment;
+    },
+
     isLoading: (state) => {
         return state.isLoading;
     },
@@ -30,6 +36,10 @@ const getters = {
 
     currentPostSentiment: (state) => {
         return state.currentPostSentiment;
+    },
+
+    currentPostComments: (state) => {
+        return state.currentPostComments;
     },
 
     busyPostsLoader: (state) => {
@@ -70,8 +80,12 @@ const getters = {
 
 const mutations = {
     ADD_POST: (state, newPost) => {
-        console.log(newPost);
         state.posts.data.unshift(newPost);
+    },
+
+    ADD_COMMENT: (state, newComment) => {
+        state.currentPostComments.unshift(newComment);
+        state.currentPost.comment_count++;
     },
 
     LOAD_POSTS: (state, posts) => {
@@ -84,6 +98,10 @@ const mutations = {
 
     LOAD_CURRENT_POST_SENTIMENT: (state, sentiment) => {
         state.currentPostSentiment = sentiment;
+    },
+
+    LOAD_CURRENT_POST_COMMENTS: (state, comments) => {
+        state.currentPostComments = comments;
     },
 
     LOAD_MORE_POSTS: (state, posts) => {
@@ -101,6 +119,10 @@ const mutations = {
 
     UPDATE_NEW_POST: (state, payload) => {
         state.newPost = payload;
+    },
+
+    UPDATE_NEW_COMMENT: (state, payload) => {
+        state.newComment = payload;
     },
 
     LIKE: (state, info) => {
@@ -160,6 +182,7 @@ const actions = {
     },
 
     loadCurrentPost: ({commit}, id) => {
+        // load post
         commit('LOAD_CURRENT_POST', null);
         axios.get("/post/" + id, {
             headers: {
@@ -170,6 +193,20 @@ const actions = {
                 commit('LOAD_CURRENT_POST', response.data);
             }
         });
+
+        // load post's comments
+        commit('LOAD_CURRENT_POST_COMMENTS', null);
+        axios.get("/comments/" + id, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem('token')
+            }
+        }).then((response) => {
+            if (response.data) {
+                commit('LOAD_CURRENT_POST_COMMENTS', response.data);
+            }
+        });
+
+        // load post's sentiment
         commit('LOAD_CURRENT_POST_SENTIMENT', null);
         axios.get("/post/sentiment/" + id, {
             headers: {
@@ -187,7 +224,7 @@ const actions = {
     },
 
     createNewPost: ({commit, state}) => {
-        if (state.newPost !== '') {
+        if (state.newPost.trim() !== '') {
             state.isLoading = true;
             axios.post("/post", {
                 content: state.newPost
@@ -202,6 +239,33 @@ const actions = {
                 state.isLoading = false;
             });
         }
+    },
+
+    createNewComment: ({commit, state}, id) => {
+        if (state.newComment.trim() !== '') {
+            // state.isLoading = true;
+            console.log(state.newComment);
+            console.log(id);
+            axios.post("/comment", {
+                comment: state.newComment,
+                post_id: id
+            }, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem('token')
+                }
+            }).then((response) => {
+                console.log(response);
+                // commit('general/triggerPostDialog', false, {root: true});
+                commit('ADD_COMMENT', response.data);
+                commit('UPDATE_NEW_COMMENT', '');
+                //state.isLoading = false;
+            });
+            commit('UPDATE_NEW_COMMENT', '');
+        }
+    },
+
+    updateNewComment: ({commit}, payload) => {
+        commit('UPDATE_NEW_COMMENT', payload);
     },
 
     like: ({commit}, payload) => {

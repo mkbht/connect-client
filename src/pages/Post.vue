@@ -6,13 +6,14 @@
             <v-container fluid grid-list-lg>
                 <v-layout fluid row v-bind="binding">
                     <v-flex md6>
-                        <!-- <v-breadcrumbs>
+                        <v-breadcrumbs>
                             <v-icon slot="divider">chevron_right</v-icon>
 
                             <v-breadcrumbs-item to="/home">Home</v-breadcrumbs-item>
                             <v-breadcrumbs-item v-if="currentPost">{{ currentPost.user.name }}'s Post
                             </v-breadcrumbs-item>
-                        </v-breadcrumbs> -->
+                        </v-breadcrumbs>
+
                         <v-card v-if="currentPost" class="mb-3">
                             <v-list-tile avatar class="pt-3">
                                 <v-list-tile-avatar color="teal">
@@ -22,10 +23,10 @@
                                 <v-list-tile-content>
 
                                     <v-list-tile-title>
-                                        <router-link to="/home"><span>{{ currentPost.user.name }}</span>
+                                        <router-link to="/home"><span class="black--text font-weight-bold">{{ currentPost.user.name }}</span>
                                         </router-link>
                                     </v-list-tile-title>
-                                    <v-list-tile-sub-title>
+                                    <v-list-tile-sub-title class="grey--text">
                                         <timeago :datetime="currentPost.created_at" :auto-update="60"></timeago>
                                     </v-list-tile-sub-title>
                                 </v-list-tile-content>
@@ -56,15 +57,44 @@
                                 </v-btn>
                                 {{ currentPost.comment_count }}
                             </v-card-actions>
+
+                            <v-text-field @keyup.enter.native="createNewComment(currentPost.id)"
+                                          placeholder="Write a comment..." autofocus solo flat v-model="newComment"
+                                          class="" hide-details></v-text-field>
                             <v-divider></v-divider>
-                            <v-text-field solo flat
-                                          placeholder="Write a comment..." autofocus
-                            ></v-text-field>
+                            <v-subheader>Comments</v-subheader>
+                            <div v-for="comment in currentPostComments" :key="comment.id">
+                                <v-list-tile avatar class="pt-3 mb-0 pb-0">
+                                    <v-list-tile-avatar color="teal">
+                                        <span class="white--text headline">{{ comment.user.name[0] }}</span>
+                                    </v-list-tile-avatar>
+
+                                    <v-list-tile-content>
+
+                                        <v-list-tile-title>
+                                            <router-link to="/home"><span
+                                                    class="blue--text text--darken-4 font-weight-bold">{{ comment.user.name }}</span>
+                                            </router-link>
+                                        </v-list-tile-title>
+                                        <v-list-tile-sub-title class="">
+                                        </v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                    <v-list-tile-action>
+                                        <timeago class="grey--text caption" :datetime="comment.created_at"
+                                                 :auto-update="60"></timeago>
+                                    </v-list-tile-action>
+                                </v-list-tile>
+
+                                <v-card-title>
+                                    <div class="pl-4">
+                                        {{ comment.content }}
+                                    </div>
+                                </v-card-title>
+                                <v-divider></v-divider>
+                            </div>
                         </v-card>
-                        <v-subheader>Comments</v-subheader>
-                        <v-divider></v-divider>
-                        Hola
-                    </v-flex>gi
+
+                    </v-flex>
 
                     <v-flex md-6>
                         <div v-if="currentPostSentiment == null">
@@ -120,8 +150,22 @@
         },
         computed: {
             ...mapGetters('posts', [
-                'currentPost', 'currentPostSentiment', 'chartColor', 'sentimentIcon', 'sentimentType'
+                'currentPost',
+                'currentPostSentiment',
+                'currentPostComments',
+                'chartColor',
+                'sentimentIcon',
+                'sentimentType',
+                'newComment',
             ]),
+            newComment: {
+                get() {
+                    return this.$store.getters['posts/newComment'];
+                },
+                set(value) {
+                    this.$store.dispatch('posts/updateNewComment', value)
+                }
+            },
             binding() {
                 const binding = {};
                 if (this.$vuetify.breakpoint.smAndDown) binding.column = true;
@@ -131,8 +175,11 @@
 
         methods: {
             ...mapActions('posts', [
-                'like'
+                'like', 'updateNewComment', 'createNewComment'
             ]),
+            hola() {
+                console.log("Enter Pressed");
+            }
         },
 
         created() {

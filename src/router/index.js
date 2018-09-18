@@ -5,6 +5,7 @@ import Home from '@/pages/Home';
 import Post from '@/pages/Post';
 import Profile from '@/pages/Profile';
 import LoginPage from '@/pages/auth/LoginPage';
+import SignupPage from '@/pages/auth/SignupPage';
 import Logout from '@/pages/auth/Logout';
 
 Vue.use(Router);
@@ -17,7 +18,8 @@ export default new Router({
             name: 'LandingPage',
             component: LandingPage,
             meta: {
-                guest: true
+                guest: true,
+                title: 'Welcome to Connect'
             }
         },
         {
@@ -25,7 +27,17 @@ export default new Router({
             name: 'LoginPage',
             component: LoginPage,
             meta: {
-                guest: true
+                guest: true,
+                title: 'Login - Connect'
+            }
+        },
+        {
+            path: '/signup',
+            name: 'SignupPage',
+            component: SignupPage,
+            meta: {
+                guest: true,
+                title: 'Signup - Connect'
             }
         },
         {
@@ -36,19 +48,28 @@ export default new Router({
         {
             path: '/home',
             name: 'Home',
-            component: Home
+            component: Home,
+            meta: {
+                title: 'Home - Connect'
+            }
         },
 
         {
             path: '/post/:id',
             name: 'Post',
-            component: Post
+            component: Post,
+            meta: {
+                title: 'Post - Connect'
+            }
         },
 
         {
             path: '/profile/:id?',
             name: 'Profile',
-            component: Profile
+            component: Profile,
+            meta: {
+                title: 'Profile - Connect'
+            }
         }
     ],
 });

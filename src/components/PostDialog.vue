@@ -2,8 +2,8 @@
     <div class="text-xs-center">
         <v-card class="mb-3">
             <v-list-tile avatar class="py-4">
-                <v-list-tile-avatar color="teal">
-                    <span class="white--text headline">M</span>
+                <v-list-tile-avatar color="indigo">
+                    <span class="white--text headline">{{ user.name[0] }}</span>
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
@@ -26,12 +26,12 @@
         >
             <v-card>
                 <v-list-tile avatar class="pt-1">
-                    <v-list-tile-avatar color="teal">
-                        <span class="white--text headline">M</span>
+                    <v-list-tile-avatar color="indigo">
+                        <span class="white--text headline">{{ user.name[0] }}</span>
                     </v-list-tile-avatar>
 
                     <v-list-tile-content>
-                        <v-list-tile-title>Mukunda Bhattarai
+                        <v-list-tile-title>{{ user.name }}
                         </v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
@@ -89,6 +89,9 @@
             ]),
             ...mapGetters('posts', [
                 'newPost', 'isLoading'
+            ]),
+            ...mapGetters('user', [
+                'user'
             ]),
 
             postDialog: {
