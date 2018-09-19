@@ -25,7 +25,7 @@
                                     color="white"
                                     large
                                     outline
-                                    href="/pre-made-themes"
+                                    to="/signup"
                             >
                                 Signup
                             </v-btn>

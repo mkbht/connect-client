@@ -11,21 +11,27 @@
                     class="hidden-lg-and-up" @click.stop="triggerDrawer"></v-toolbar-side-icon>
             <router-link to="/home"><img src="../assets/logo.png" height="100" /></router-link>
         </v-toolbar-title>
-        <v-text-field
-                flat
-                solo-inverted
-                hide-details
-                prepend-inner-icon="search"
-                label="Search"
-                class="hidden-sm-and-down"
-        ></v-text-field>
+        <!--<v-text-field-->
+                <!--flat-->
+                <!--solo-inverted-->
+                <!--hide-details-->
+                <!--prepend-inner-icon="search"-->
+                <!--label="Search"-->
+                <!--class="hidden-sm-and-down"-->
+        <!--&gt;</v-text-field>-->
         <v-spacer></v-spacer>
         <v-btn icon>
             <v-icon>apps</v-icon>
         </v-btn>
-        <v-btn icon>
-            <v-icon>notifications</v-icon>
+        <v-btn class="btn white--text" icon to="/notifications">
+            <v-badge top color="red" overlap>
+                <span v-if="user">
+                    <span v-if="user.new_notifications_count > 0" slot="badge">{{ user.new_notifications_count }}</span>
+                    <v-icon>notifications</v-icon>
+                </span>
+            </v-badge>
         </v-btn>
+
         <v-btn icon large>
             <v-avatar size="32px" tile>
                 <img
@@ -45,7 +51,10 @@
         computed: {
             ...mapGetters('general', [
                 'drawer'
-            ])
+            ]),
+            ...mapGetters('user', [
+                'user'
+            ]),
         },
 
         methods: {

@@ -4,6 +4,7 @@ import LandingPage from '@/pages/LandingPage';
 import Home from '@/pages/Home';
 import Post from '@/pages/Post';
 import Profile from '@/pages/Profile';
+import Notification from '@/pages/Notification';
 import LoginPage from '@/pages/auth/LoginPage';
 import SignupPage from '@/pages/auth/SignupPage';
 import Logout from '@/pages/auth/Logout';
@@ -62,13 +63,20 @@ export default new Router({
                 title: 'Post - Connect'
             }
         },
-
         {
             path: '/profile/:id?',
             name: 'Profile',
             component: Profile,
             meta: {
                 title: 'Profile - Connect'
+            }
+        },
+        {
+            path: '/notifications',
+            name: 'Notification',
+            component: Notification,
+            meta: {
+                title: 'Notification - Connect'
             }
         }
     ],
